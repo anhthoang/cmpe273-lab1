@@ -243,7 +243,7 @@ time.sleep(2.0)
 ```
 ### Steps
     1. Make sure to run Service A again. 
-    2. Ensure Service B timeout is configured:
+    2. Ensure Service B timeout is configured `/call-echo` endpoint:
 
 ```python
         r = requests.get(
@@ -289,7 +289,7 @@ from flask import abort
 def foo():
     start = time.time()
     logging.error(
-        f"service=A endpoint=/boom status=error latency_ms={int((time.time()-start)*1000)}"
+        f"service=A endpoint=/foo status=error latency_ms={int((time.time()-start)*1000)}"
     )
     abort(500)
 
