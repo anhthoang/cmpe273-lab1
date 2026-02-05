@@ -2,9 +2,34 @@
 
 
 1. What makes this distributed?
+
+    This homework is an example of a distributed system because two services A and B run independently even though they run on the same machine, and they communicate with each other through HTTP. Service B calls service A through an API endpoint, and each service runs on its own port. Service A and B don’t share memories, they interact through the network. Therefore, each service is expected to start, run, crash or delay without directly crashing the other service. In this case, service B gracefully handles the failure of network, timeout or other connection failures. These characteristics including independent processes, network-based communication and separate failure domains are the main keys of a distributed system. 
 2. What happens on timeout?
+
+    When a timeout occurs, Service B stops waiting for a response from Service A after a fixed amount of time. If Service A takes too long to respond, Service B logs a timeout error and returns an HTTP 503 Sercive A timeout response to the client. Service A may still finish processing the request, but Service B doesn't wait for it and won't crash. This will help Service B stay responsive when Service A is slow.
 3. What happens if Service A is down?
+
+    When Service A is down, Service B can't reach it. Service B receive a connection error, log the failure, and return an HTTP 503 Service A unavailable to the client. Service A won't produce any logs because it isn't running and doesn't receive any request. Service B continues to run normally and handles the failure without crashing.
+
 4. What do your logs show, and how would you debug?
+
+    What the logs show:
+    - Which service handled the request(Service A or B)
+    - Which endpoint was called
+    - Whether the request is successful or failed
+    - The latency of the request
+    - The type of failure (timeout, connection error, HTTP error)
+
+    How would I debug:
+    - First of all, I will check the Service B logs to identify the failure
+        + timeout: Service A responds slowly
+        + ConnectionError: Service A is down or running on wrong port
+        + HTTPError: 500: Service A responded but failed internally
+    - Second, I will verify if Service A is running:
+        + Health check on service A: curl http://127.0.0.1:8080/health
+        + Check if Service A running on correct port
+        + Check the latency in Service A log and compare with Service B log
+        + If it an HTTP error, inspect Service A logs to locate the cause of failure
 
 
 ## 1. Running Two Services on Separate Ports
