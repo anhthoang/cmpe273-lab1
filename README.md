@@ -41,6 +41,18 @@ This project consists of two independent services running as separate processes 
 
 Each service is started in its own terminal window.
 
+## Service Endpoints
+
+| Service | Port | Endpoint | Method | Description |
+|--------|------|----------|--------|-------------|
+| Service A | 8080 | `/health` | GET | Returns the health status of Service A |
+| Service A | 8080 | `/echo` | GET | Returns the message provided in the `msg` query parameter |
+| Service A | 8080 | `/foo` | GET | Returns HTTP 500 to simulate an internal server error |
+| Service B | 8081 | `/health` | GET | Returns the health status of Service B |
+| Service B | 8081 | `/call-echo` | GET | Calls Service A `/echo` and returns a combined response |
+| Service B | 8081 | `/call-foo` | GET | Calls Service A `/foo` to test upstream HTTP error handling |
+
+
 ### Running Service A and health check
 
 ```bash
