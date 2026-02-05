@@ -14,6 +14,8 @@
 4. What do your logs show, and how would you debug?
 
     What the logs show:
+    - Timestamp for each log
+    - Log level (INFO or ERROR)
     - Which service handled the request(Service A or B)
     - Which endpoint was called
     - Whether the request is successful or failed
@@ -242,8 +244,8 @@ Example:
 time.sleep(2.0)
 ```
 ### Steps
-    1. Make sure to run Service A again. 
-    2. Ensure Service B timeout is configured `/call-echo` endpoint:
+1. Make sure to run Service A again. 
+2. Ensure Service B timeout is configured `/call-echo` endpoint:
 
 ```python
         r = requests.get(
